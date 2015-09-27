@@ -12,7 +12,8 @@
         android:layout_alignParentTop="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        />
+        style="@style/Base.TextAppearance.AppCompat.Widget.TextView.SpinnerItem"
+        android:dropDownSelector="#416469" />
 
     <Button
         android:layout_width="wrap_content"

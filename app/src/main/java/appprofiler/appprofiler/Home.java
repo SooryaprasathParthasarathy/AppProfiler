@@ -3,6 +3,7 @@ package appprofiler.appprofiler;
 import android.content.Context;
 import android.content.pm.ApplicationInfo;
 import android.content.pm.PackageManager;
+import android.net.TrafficStats;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
@@ -47,7 +48,21 @@ public class Home extends AppCompatActivity {
     public void RetriveDetails(View view) {
         Spinner mySpinner=(Spinner) findViewById(R.id.spinner);
         String text = mySpinner.getSelectedItem().toString();
-        Toast.makeText(this,text,Toast.LENGTH_SHORT).show();
+        PackageManager pm = getPackageManager();
+        List<ApplicationInfo> l = pm.getInstalledApplications(PackageManager.GET_META_DATA);
+        String canonicalName ;
+        for (ApplicationInfo ai : l){
+            String n = (String)pm.getApplicationLabel(ai);
+            if (n.contains(text) || text.contains(n)){
+                canonicalName = ai.packageName;
+                Networktraffic nt = new Networktraffic();
+             int datareceived =   nt.Networktraffic(this,getPackageManager(),canonicalName);
+                Toast.makeText(this,datareceived,Toast.LENGTH_SHORT);
+            }
+        }
+
+
+
 
     }
 
