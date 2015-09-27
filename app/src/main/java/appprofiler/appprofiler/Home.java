@@ -24,17 +24,14 @@ public class Home extends AppCompatActivity {
     }
 
     private void DisplayApplication() {
-        Spinner dropdown = (Spinner)findViewById(R.id.spinner);
+        Spinner dropdown = (Spinner) findViewById(R.id.spinner);
         PackageManager Manager;
         Manager = getPackageManager();
 
-        List<ApplicationInfo> Installedapps = Manager.getInstalledApplications(PackageManager.GET_META_DATA);
+        List<ApplicationInfo> Installedapps = Manager.getInstalledApplications(0);
         ApplicationInfo[] applicationInfo = new ApplicationInfo[Installedapps.size()];
         String[] applicationname = new String[Installedapps.size()];
 
-        String[] Apps = new String[Installedapps.size()]; //To convert into string for parsing
-
-        for (ApplicationInfo app : Installedapps) {
             for (int i = 0; i < Installedapps.size(); i++) {
                 try {
                     applicationInfo[i] = (Manager.getApplicationInfo(Installedapps.get(i).packageName, 0));
@@ -46,8 +43,6 @@ public class Home extends AppCompatActivity {
                 dropdown.setAdapter(listitemsdetails);
             }
         }
-    }
-
 
     public void RetriveDetails(View view) {
         Spinner mySpinner=(Spinner) findViewById(R.id.spinner);
