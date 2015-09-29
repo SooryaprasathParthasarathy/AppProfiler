@@ -9,8 +9,12 @@ import android.support.v7.app.AppCompatActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
 import android.widget.Spinner;
+import android.widget.TextView;
 
 import java.util.List;
 
@@ -24,6 +28,7 @@ public class Home extends AppCompatActivity {
     }
 
     private void DisplayApplication() {
+
         Spinner dropdown = (Spinner) findViewById(R.id.spinner);
         PackageManager Manager;
         Manager = getPackageManager();
@@ -39,7 +44,9 @@ public class Home extends AppCompatActivity {
                 } catch (PackageManager.NameNotFoundException e) {
                     e.printStackTrace();
                 }
+                AutoCompleteTextView textView = (AutoCompleteTextView) findViewById(R.id.textview);
                 ArrayAdapter<String> listitemsdetails = new ArrayAdapter<String>(this, android.R.layout.simple_dropdown_item_1line, applicationname);
+                textView.setAdapter(listitemsdetails);
                 dropdown.setAdapter(listitemsdetails);
             }
         }
@@ -78,3 +85,4 @@ public class Home extends AppCompatActivity {
         return this;
     }
 }
+
