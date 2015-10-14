@@ -1,0 +1,97 @@
+package com.ibc.android.demo.appslist.activity;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import com.ibc.android.demo.appslist.app.AppData;
+import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.app.AlertDialog;
+import android.content.ActivityNotFoundException;
+import android.content.Context;
+import android.content.Intent;
+import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
+import android.net.Uri;
+import android.os.Build;
+import android.os.Bundle;
+import android.view.View;
+import android.webkit.WebView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+public class ApkInfo extends Activity {
+
+    TextView appLabel, packageName, version;
+    TextView andVersion, installed, path;
+    PackageInfo packageInfo;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.apkinfo);
+
+        findViewsById();
+
+        AppData appData = (AppData) getApplicationContext();
+        packageInfo = appData.getPackageInfo();
+
+        setValues();
+
+    }
+
+    private void findViewsById() {
+        appLabel = (TextView) findViewById(R.id.applabel);
+        packageName = (TextView) findViewById(R.id.package_name);
+        version = (TextView) findViewById(R.id.version_name);
+        andVersion = (TextView) findViewById(R.id.andversion);
+        path = (TextView) findViewById(R.id.path);
+        installed = (TextView) findViewById(R.id.insdate);
+
+    }
+
+    private void setValues() {
+        // APP name
+        appLabel.setText(getPackageManager().getApplicationLabel(
+                packageInfo.applicationInfo));
+
+        // package name
+        packageName.setText(packageInfo.packageName);
+
+        // version name
+        version.setText(packageInfo.versionName);
+
+        // target version
+        andVersion.setText(Integer
+                .toString(packageInfo.applicationInfo.targetSdkVersion));
+
+        // path
+        path.setText(packageInfo.applicationInfo.sourceDir);
+
+        // first installation
+        installed.setText(setDateFormat(packageInfo.firstInstallTime));
+
+    }
+
+    @SuppressLint("SimpleDateFormat")
+    private String setDateFormat(long time) {
+        Date date = new Date(time);
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyy-MM-dd HH:mm");
+        String strDate = formatter.format(date);
+        return strDate;
+    }
+
+    public void update(View view) {
+        Context context;
+        context = getApplicationContext();
+        Uri uri = Uri.parse("market://details?id=" + packageName.getText());
+        Intent goToMarket = new Intent(Intent.ACTION_VIEW, uri);
+        // To count with Play market backstack, After pressing back button,
+        // to taken back to our application, we need to add following flags to intent.
+        try {
+            startActivity(goToMarket);
+        } catch (ActivityNotFoundException e) {
+            startActivity(new Intent(Intent.ACTION_VIEW,
+                    Uri.parse("http://play.google.com/store/apps/details?id=" + context.getPackageName())));
+        }
+    }
+}
