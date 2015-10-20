@@ -1,28 +1,37 @@
 package com.ibc.android.demo.appslist.activity;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 
 import com.ibc.android.demo.appslist.adapter.ApkAdapter;
 import com.ibc.android.demo.appslist.app.AppData;
 
 import android.content.pm.ApplicationInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.app.Activity;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.AdapterView.OnItemClickListener;
+import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.TextView;
 
 public class ApkListActivity extends Activity
         implements OnItemClickListener {
 
     PackageManager packageManager;
     ListView apkList;
+    private ApkAdapter adapter;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -32,21 +41,24 @@ public class ApkListActivity extends Activity
         packageManager = getPackageManager();
         List<PackageInfo> packageList = packageManager
                 .getInstalledPackages(PackageManager.GET_PERMISSIONS);
-
         List<PackageInfo> packageList1 = new ArrayList<PackageInfo>();
          
         /*To filter out System apps*/
-        for(PackageInfo pi : packageList) {
+        for (PackageInfo pi : packageList) {
             boolean b = isSystemPackage(pi);
-            if(!b) {
+            if (!b) {
                 packageList1.add(pi);
             }
         }
         apkList = (ListView) findViewById(R.id.applist);
         apkList.setAdapter(new ApkAdapter(this, packageList1, packageManager));
+        apkList.setDivider(new ColorDrawable(0x22000000));   //0xAARRGGBB
+        apkList.setDividerHeight(5);
 
         apkList.setOnItemClickListener(this);
     }
+
+
 
     /**
      * Return whether the given PackgeInfo represents a system package or not.
@@ -60,7 +72,6 @@ public class ApkListActivity extends Activity
         return ((pkgInfo.applicationInfo.flags & ApplicationInfo.FLAG_SYSTEM) != 0) ? true
                 : false;
     }
-
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position,
                             long row) {

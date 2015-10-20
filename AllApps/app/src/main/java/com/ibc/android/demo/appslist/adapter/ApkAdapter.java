@@ -1,6 +1,8 @@
 package com.ibc.android.demo.appslist.adapter;
 
 import java.util.List;
+import java.util.Locale;
+
 import com.ibc.android.demo.appslist.activity.R;
 import android.app.Activity;
 import android.content.pm.PackageInfo;
@@ -25,6 +27,7 @@ public class ApkAdapter extends BaseAdapter {
         this.packageList = packageList;
         this.packageManager = packageManager;
     }
+
 
     private class ViewHolder {
         TextView apkName;
@@ -59,9 +62,10 @@ public class ApkAdapter extends BaseAdapter {
         PackageInfo packageInfo = (PackageInfo) getItem(position);
         Drawable appIcon = packageManager
                 .getApplicationIcon(packageInfo.applicationInfo);
+
         String appName = packageManager.getApplicationLabel(
                 packageInfo.applicationInfo).toString();
-        appIcon.setBounds(0, 0, 40, 40);
+        appIcon.setBounds(0, 0, 100, 100);
         holder.apkName.setCompoundDrawables(appIcon, null, null, null);
         holder.apkName.setCompoundDrawablePadding(15);
         holder.apkName.setText(appName);

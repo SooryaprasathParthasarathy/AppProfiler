@@ -5,19 +5,15 @@ import java.util.Date;
 import com.ibc.android.demo.appslist.app.AppData;
 import android.annotation.SuppressLint;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
-import android.content.pm.PackageManager;
 import android.net.Uri;
-import android.os.Build;
+import android.os.BatteryManager;
 import android.os.Bundle;
 import android.view.View;
-import android.webkit.WebView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 public class ApkInfo extends Activity {
 
@@ -29,12 +25,10 @@ public class ApkInfo extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.apkinfo);
-
         findViewsById();
 
         AppData appData = (AppData) getApplicationContext();
         packageInfo = appData.getPackageInfo();
-
         setValues();
 
     }
@@ -47,6 +41,18 @@ public class ApkInfo extends Activity {
         path = (TextView) findViewById(R.id.path);
         installed = (TextView) findViewById(R.id.insdate);
 
+    }
+
+    public void Retrivedetails(View view){
+       TextView t= (TextView) findViewById(R.id.applabel);
+        Intent i = new Intent(this, NetworkUsage.class);
+        i.putExtra("SelectedValue",t.getText().toString());
+        startActivity(i);
+    }
+
+    public void Batterydetails(View view){
+        Intent i = new Intent(this, BatteryManagement.class);
+        startActivity(i);
     }
 
     private void setValues() {
@@ -94,4 +100,5 @@ public class ApkInfo extends Activity {
                     Uri.parse("http://play.google.com/store/apps/details?id=" + context.getPackageName())));
         }
     }
+
 }

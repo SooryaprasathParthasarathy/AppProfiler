@@ -139,9 +139,35 @@
             android:text="Check for Updates"
             android:id="@+id/inbox"
             android:onClick="update"
-            android:layout_below="@+id/last_modify"
-            android:layout_centerHorizontal="true" />
 
-      </RelativeLayout>
+            android:layout_below="@+id/last_modify"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Data Consumption"
+            android:id="@+id/button"
+            android:onClick="Retrivedetails"
+            android:layout_alignTop="@+id/inbox"
+            android:layout_alignParentRight="true"
+            android:layout_alignParentEnd="true" />
+
+        <Button
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Battery Monitor"
+            android:id="@+id/button2"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentLeft="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignRight="@+id/inbox"
+            android:layout_alignEnd="@+id/inbox"
+            android:onClick="Batterydetails"
+            />
+
+
+    </RelativeLayout>
 
 </ScrollView>
