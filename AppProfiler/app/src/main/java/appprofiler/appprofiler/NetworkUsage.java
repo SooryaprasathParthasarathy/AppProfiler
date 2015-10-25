@@ -34,14 +34,14 @@ public class NetworkUsage extends AppCompatActivity {
         String canonicalName ;
         for (ApplicationInfo ai : l){
             String n = (String)pm.getApplicationLabel(ai);
-            if (n.contains(text) || text.contains(n)){
+            if (n.equals(text) || text.equals(n)){
                 canonicalName = ai.packageName;
                 Networktraffic nt = new Networktraffic();
              String datareceived =   nt.Networktraffic(this,getPackageManager(),canonicalName);
                 String datasent = nt.Networktrafficsent(this,getPackageManager(),canonicalName);
                 AlertDialog.Builder alert = new AlertDialog.Builder(this);
                 if(!(datareceived.equals("Unsupported"))) {
-                    TextView t = (TextView) findViewById(R.id.textView4);
+                     TextView t = (TextView) findViewById(R.id.textView4);
                     t.setText(datareceived);
                 }
                 if(!(datasent.equals("Unsupported"))) {

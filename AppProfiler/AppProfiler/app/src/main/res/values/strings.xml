@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">AppProfiler</string>
+
+    <string name="hello_world">Hello world!</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_ap__menu">AP_Menu</string>
+    <string name="title_activity_data_sniffer">DataSniffer</string>
+</resources>
