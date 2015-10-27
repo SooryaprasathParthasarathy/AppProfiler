@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="appprofiler.appprofilerv1" >
+
+    <application
+        android:allowBackup="true"
+        android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" >
+        <activity
+            android:name=".AP_Menu"
+            android:label="@string/app_name" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".DataSniffer"
+            android:label="@string/title_activity_data_sniffer" >
+            <intent-filter>
+                <action android:name="appprofiler.appprofilerv1.DataSniffer" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ApplicationListDataSniff"
+            android:label="@string/title_activity_application_list_data_sniff" >
+            <intent-filter>
+                <action android:name="appprofiler.appprofilerv1.ApplicationListDataSniff" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+        <activity
+            android:name=".ApkInfo"
+            android:label="@string/title_activity_apk_info" >
+        </activity>
+        <activity
+            android:name=".ApkListActivity"
+            android:label="@string/title_activity_apk_list" >
+        </activity>
+    </application>
+
+</manifest>
