@@ -13,12 +13,26 @@ import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.TextView;
 
+import org.json.JSONObject;
+
+import java.io.BufferedReader;
 import java.io.IOException;
+import java.io.InputStreamReader;
+import java.net.URL;
+import java.net.URLConnection;
 import java.util.List;
 
 public class DataSniffer extends AppCompatActivity {
+    public static String IPAddress=null;
+    public static String    Latitude;
+    public static String    Longitude;
+    public static String    country_code;
+    public static String    Country;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -26,10 +40,69 @@ public class DataSniffer extends AppCompatActivity {
         setContentView(R.layout.activity_data_sniffer);
         try {
             Networkanalyser();
-        }catch (IOException e){
+
+        } catch (IOException e) {
+            e.printStackTrace();
+
+        }
+        new Thread(new Threadcheck()).start();
+        TextView lat = (TextView) findViewById(R.id.tvLat);
+        TextView lon = (TextView) findViewById(R.id.tvLng);
+        TextView cit = (TextView) findViewById(R.id.tvCity);
+        TextView cou = (TextView) findViewById(R.id.tvCntry);
+        try {
+            lat.setText(Latitude.toString());
+            lon.setText(Longitude.toString());
+            cit.setText(country_code.toString());
+            cou.setText(Country.toString());
+            System.out.println(Latitude);
+            //setContentView(R.layout.data_sniffer);
+        } catch (Exception e) {
             e.printStackTrace();
         }
-        //setContentView(R.layout.data_sniffer);
+    }
+
+    class Threadcheck  implements Runnable {
+
+        //  TextView temp = (TextView) findViewById(R.id.textView);
+        @Override
+        public void run() {
+
+            String line = null;
+            URL url;
+            try {
+                String a = "https://freegeoip.net/json/"+IPAddress;
+                url = new URL(a);
+
+
+                URLConnection conn = url.openConnection();
+
+                BufferedReader br = new BufferedReader(
+                        new InputStreamReader(conn.getInputStream()));
+
+                String inputLine;
+                while ((inputLine = br.readLine()) != null) {
+                    System.out.println(inputLine);
+                    JSONObject js = new JSONObject(inputLine);
+                     Latitude = js.getString("latitude");
+                    System.out.println(Latitude);
+                     Longitude = js.getString("longitude");
+                    System.out.println(Longitude);
+                    Country = js.getString("country_name");
+                    country_code=js.getString("country_code");
+
+                    //  Intent i = new Intent(this,MapsActivity.class);
+                }
+                br.close();
+                //      temp.setText(inputLine);
+                System.out.println("Done");
+
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+
+        }
+
     }
 
     @Override
@@ -49,32 +122,43 @@ public class DataSniffer extends AppCompatActivity {
         PackageManager pm = getPackageManager();
         List<ApplicationInfo> lstAppInfo = pm.getInstalledApplications(PackageManager.GET_META_DATA);
         String canonicalName;
+        try {
+            for (ApplicationInfo ai : lstAppInfo) {
+                String n = (String) pm.getApplicationLabel(ai);
+                if (n.equals(text) || text.equals(n)) {
+                    canonicalName = ai.packageName;
+                    IPAddress = new NetTask().execute(canonicalName).get();
+                    AlertDialog.Builder b = new AlertDialog.Builder(this);
+                    b.setMessage(IPAddress);
+                    NetTrafficAnalyser nt = new NetTrafficAnalyser();
+                    String datareceived = nt.Networktraffic(this, getPackageManager(), canonicalName);
+                    String datasent = nt.Networktrafficsent(this, getPackageManager(), canonicalName);
 
-        for (ApplicationInfo ai : lstAppInfo){
-            String n = (String)pm.getApplicationLabel(ai);
-            if (n.equals(text) || text.equals(n)){
-                canonicalName = ai.packageName;
-                NetTrafficAnalyser nt = new NetTrafficAnalyser();
-                String datareceived =   nt.Networktraffic(this, getPackageManager(), canonicalName);
-                String datasent = nt.Networktrafficsent(this, getPackageManager(), canonicalName);
+                    if (!(datareceived.equals("Unsupported"))) {
+                        //TextView t = (TextView) findViewById(R.id.otvBR);
+                        TextView t = (TextView) findViewById(R.id.tvRBR);
+                        float datareceivedMb = Float.parseFloat(datareceived) / (1024 * 1024);
+                        t.setText(String.format("%.2f Mb", datareceivedMb));
+                    }
+                    if (!(datasent.equals("Unsupported"))) {
+                        TextView t = (TextView) findViewById(R.id.tvRBS);
+                        float datasentMb = Float.parseFloat(datasent) / (1024 * 1024);
+                        t.setText(String.format("%.2f Mb", datasentMb));
+                    } else {
+                        AlertDialog.Builder alert = new AlertDialog.Builder(this);
+                        alert.setMessage("Not supported");
+                        alert.show();
+                    }
+                    TextView IPtv=(TextView) findViewById(R.id.tvRIP);
+                    IPtv.setText(IPAddress);
 
-                if(!(datareceived.equals("Unsupported"))) {
-                    //TextView t = (TextView) findViewById(R.id.otvBR);
-                    TextView t = (TextView)findViewById(R.id.tvRBR);
-                    float datareceivedMb = Float.parseFloat(datareceived) /(1024*1024);
-                    t.setText(String.format("%.2f Mb",datareceivedMb));
                 }
-                if(!(datasent.equals("Unsupported"))) {
-                    TextView t = (TextView) findViewById(R.id.tvRBS);
-                    float datasentMb = Float.parseFloat(datasent)/(1024*1024);
-                    t.setText(String.format("%.2f Mb",datasentMb)); }
-                else {
-                    AlertDialog.Builder alert = new AlertDialog.Builder(this);
-                    alert.setMessage("Not supported");
-                    alert.show();
-                }
-
             }
+
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
         }
     }
 
@@ -92,5 +176,19 @@ public class DataSniffer extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
+    public void map(View view)
+    {
+        try {
+            Intent gmap = new Intent("appprofiler.appprofilerv1.MapsActivity");
+            gmap.putExtra("Latitude", Latitude);
+            gmap.putExtra("Longitude", Longitude);
+            startActivity(gmap);
+        }
+        catch(Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
 }
 

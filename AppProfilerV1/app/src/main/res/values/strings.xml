@@ -18,4 +18,5 @@
     <string name="appsize">Physical Size</string>
     <string name="installed">Installed:</string>
     <string name="title_activity_apk_list">ApkListActivity</string>
+    <string name="title_activity_server_loc">Map</string>
 </resources>

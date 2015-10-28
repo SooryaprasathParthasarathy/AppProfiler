@@ -1,6 +1,4 @@
 package appprofiler.appprofilerv1;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
@@ -9,10 +7,13 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageInfo;
 import android.net.Uri;
-import android.os.BatteryManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+
+import java.text.SimpleDateFormat;
+import java.util.Date;
+
 
 public class ApkInfo extends Activity {
 
@@ -24,10 +25,12 @@ public class ApkInfo extends Activity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_apk_info);
+
         findViewsById();
 
         AppData appData = (AppData) getApplicationContext();
         packageInfo = appData.getPackageInfo();
+
         setValues();
 
     }
@@ -39,9 +42,7 @@ public class ApkInfo extends Activity {
         andVersion = (TextView) findViewById(R.id.andversion);
         path = (TextView) findViewById(R.id.path);
         installed = (TextView) findViewById(R.id.insdate);
-
     }
-
 
     private void setValues() {
         // APP name
@@ -88,5 +89,4 @@ public class ApkInfo extends Activity {
                     Uri.parse("http://play.google.com/store/apps/details?id=" + context.getPackageName())));
         }
     }
-
 }

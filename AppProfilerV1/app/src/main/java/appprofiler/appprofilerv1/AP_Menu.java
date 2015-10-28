@@ -82,7 +82,22 @@ public class AP_Menu extends ListActivity {
                     startActivity(DS_Intent);
                 }
             }
+            else
 
+                if(value.equals("Log Manager"))
+                {
+                    Intent DS_Intent = new Intent(this,CallLogger.class);
+                    startActivity(DS_Intent);
+
+                }
+                else
+
+                if(value.equals("Version Updates"))
+                {
+                    Intent DS_Intent = new Intent(this,ApkListActivity.class);
+                    startActivity(DS_Intent);
+
+                }
         }catch(ActivityNotFoundException e){
             Toast.makeText(AP_Menu.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }catch(Exception e){
