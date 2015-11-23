@@ -35,7 +35,8 @@ public class MapsActivity extends Activity {
         String lat = i.getStringExtra("Latitude");
         String lon = i.getStringExtra("Longitude");
 
-        final LatLng TutorialsPoint = new LatLng(Double.parseDouble(lat) , Double.parseDouble(lon));
+        //final LatLng latlng1 = new LatLng(Double.parseDouble(lat) , Double.parseDouble(lon));
+        final LatLng latlng1 = new LatLng(36.778259,-119.417931);
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_map);
 
@@ -45,7 +46,7 @@ public class MapsActivity extends Activity {
             }
             googleMap.setMapType(GoogleMap.MAP_TYPE_HYBRID);
             Marker TP = googleMap.addMarker(new MarkerOptions().
-                    position(TutorialsPoint).title("App Profiler"));
+                    position(latlng1).title("App Profiler"));
         }
         catch (Exception e) {
             e.printStackTrace();

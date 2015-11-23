@@ -14,6 +14,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ListView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,7 +30,6 @@ public class AP_Menu extends ListActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_ap__menu);
-
         Intent intent = getIntent();
    //     sAppName = intent.getStringExtra("AppName");
 
@@ -37,19 +37,19 @@ public class AP_Menu extends ListActivity {
         app.setText("App Profiler");
 
         new LoadApplications().execute();
-    }
+       }
 
     private ArrayList<String> setMenuOptions(){
 
         ArrayList<String> list = new ArrayList<String>();
 
-        list.add("Battery Radar");
+        //list.add("Battery Radar");
         list.add("Data Sniffer");
-        list.add("Usage Monitor");
+        //list.add("Usage Monitor");
         list.add("Log Manager");
-        list.add("Network Watch");
-        list.add("Server Locator");
-        list.add("Task Manager");
+        //list.add("Network Watch");
+        //list.add("Server Locator");
+        //list.add("Task Manager");
         list.add("Version Updates");
 
         return list ;
@@ -59,8 +59,7 @@ public class AP_Menu extends ListActivity {
         super.onListItemClick(l, v, position, id);
 
         String value = (String)l.getItemAtPosition(position);
-
-        try{
+         try{
 
             if(value.equals("Data Sniffer"))
             {

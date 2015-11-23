@@ -26,7 +26,7 @@ import java.net.URLConnection;
 import java.util.List;
 
 public class DataSniffer extends AppCompatActivity {
-    public static String IPAddress=null;
+    public static String IPAddress;
     public static String    Latitude;
     public static String    Longitude;
     public static String    country_code;
@@ -38,23 +38,28 @@ public class DataSniffer extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_data_sniffer);
+
         try {
             Networkanalyser();
+
+            Threadcheck t1 = new Threadcheck();
+            Thread t = new Thread(t1);
+            t.start();
+                    (new Thread(new Threadcheck())).start();
 
         } catch (IOException e) {
             e.printStackTrace();
 
         }
-        new Thread(new Threadcheck()).start();
-        TextView lat = (TextView) findViewById(R.id.tvLat);
-        TextView lon = (TextView) findViewById(R.id.tvLng);
-        TextView cit = (TextView) findViewById(R.id.tvCity);
-        TextView cou = (TextView) findViewById(R.id.tvCntry);
+        //TextView lat = (TextView) findViewById(R.id.tvLat);
+        //TextView lon = (TextView) findViewById(R.id.tvLng);
+        //TextView cit = (TextView) findViewById(R.id.tvCity);
+        //TextView cou = (TextView) findViewById(R.id.tvCntry);
         try {
-            lat.setText(Latitude.toString());
-            lon.setText(Longitude.toString());
-            cit.setText(country_code.toString());
-            cou.setText(Country.toString());
+            //lat.setText(Latitude.toString());
+           // lon.setText(Longitude.toString());
+           // cit.setText(country_code.toString());
+           // cou.setText(Country.toString());
             System.out.println(Latitude);
             //setContentView(R.layout.data_sniffer);
         } catch (Exception e) {
@@ -62,13 +67,12 @@ public class DataSniffer extends AppCompatActivity {
         }
     }
 
-    class Threadcheck  implements Runnable {
+    class Threadcheck  implements Runnable{
 
         //  TextView temp = (TextView) findViewById(R.id.textView);
         @Override
         public void run() {
 
-            String line = null;
             URL url;
             try {
                 String a = "https://freegeoip.net/json/"+IPAddress;
@@ -128,8 +132,10 @@ public class DataSniffer extends AppCompatActivity {
                 if (n.equals(text) || text.equals(n)) {
                     canonicalName = ai.packageName;
                     IPAddress = new NetTask().execute(canonicalName).get();
-                    AlertDialog.Builder b = new AlertDialog.Builder(this);
-                    b.setMessage(IPAddress);
+                    if(IPAddress==null)
+                    {
+                        IPAddress="31.13.71.1";
+                    }
                     NetTrafficAnalyser nt = new NetTrafficAnalyser();
                     String datareceived = nt.Networktraffic(this, getPackageManager(), canonicalName);
                     String datasent = nt.Networktrafficsent(this, getPackageManager(), canonicalName);
@@ -149,8 +155,8 @@ public class DataSniffer extends AppCompatActivity {
                         alert.setMessage("Not supported");
                         alert.show();
                     }
-                    TextView IPtv=(TextView) findViewById(R.id.tvRIP);
-                    IPtv.setText(IPAddress);
+                    //TextView IPtv=(TextView) findViewById(R.id.tvRIP);
+                    //IPtv.setText(IPAddress);
 
                 }
             }
@@ -179,7 +185,7 @@ public class DataSniffer extends AppCompatActivity {
     public void map(View view)
     {
         try {
-            Intent gmap = new Intent("appprofiler.appprofilerv1.MapsActivity");
+            Intent gmap = new Intent(DataSniffer.this,MapsActivity.class);
             gmap.putExtra("Latitude", Latitude);
             gmap.putExtra("Longitude", Longitude);
             startActivity(gmap);

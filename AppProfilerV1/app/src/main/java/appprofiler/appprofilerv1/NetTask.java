@@ -9,19 +9,21 @@ import java.net.UnknownHostException;
 
 public class NetTask extends AsyncTask<String, Integer, String>
 {
+    String addr;
     @Override
     protected String doInBackground(String... params)
     {
-        InetAddress addr = null;
+
         try
         {
-            addr = InetAddress.getByName(params[0]);
+            addr ="31.13.71.1";
+         //   addr = InetAddress.getByName(params[0]);
         }
 
-        catch (UnknownHostException e)
+        catch (Exception e)
         {
             e.printStackTrace();
         }
-        return addr.getHostAddress();
+        return addr;
     }
 }

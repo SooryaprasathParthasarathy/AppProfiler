@@ -12,7 +12,6 @@
         android:textSize="25dp"
         android:textStyle="bold"
         android:text="App Profiler"
-
         android:id="@+id/TxtVw_AppName"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
@@ -24,5 +23,7 @@
         android:layout_below="@+id/TxtVw_AppName"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true">
+
     </ListView>
-</RelativeLayout>
+
+   </RelativeLayout>

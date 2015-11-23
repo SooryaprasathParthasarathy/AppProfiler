@@ -41,7 +41,7 @@ public class ApkInfo extends Activity {
         version = (TextView) findViewById(R.id.version_name);
         andVersion = (TextView) findViewById(R.id.andversion);
         path = (TextView) findViewById(R.id.path);
-        installed = (TextView) findViewById(R.id.insdate);
+
     }
 
     private void setValues() {
@@ -61,10 +61,6 @@ public class ApkInfo extends Activity {
 
         // path
         path.setText(packageInfo.applicationInfo.sourceDir);
-
-        // first installation
-        installed.setText(setDateFormat(packageInfo.firstInstallTime));
-
     }
 
     @SuppressLint("SimpleDateFormat")
