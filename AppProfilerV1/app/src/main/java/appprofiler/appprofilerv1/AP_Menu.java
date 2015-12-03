@@ -2,130 +2,69 @@ package appprofiler.appprofilerv1;
 
 
 import android.app.ListActivity;
-import android.app.ProgressDialog;
-import android.content.ActivityNotFoundException;
 import android.content.Intent;
-import android.content.pm.ApplicationInfo;
-import android.content.pm.PackageManager;
-import android.os.AsyncTask;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.view.Menu;
-import android.view.MenuItem;
-import android.view.View;
+        import android.view.View;
+        import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.ProgressBar;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 
-public class AP_Menu extends ListActivity {
+public class AP_Menu extends ListActivity{
 
     private ArrayList<String> MenuList = null;
     private MenuLstPopulator menuListPopulator = null;
     private String sAppName;
+    private ListView list;
+    String[] itemname = {"Usage Monitor","Data Sniffer","Battery Radar", "Log Manager", "Version Updates","Frames Calculation","Task Manager"};
+    Integer[] imgid = {R.drawable.cpu,R.drawable.mobiledata,R.drawable.battery,R.drawable.logmanager,R.drawable.version,R.drawable.fps,
+            R.drawable.taskmanager};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_ap__menu);
-        Intent intent = getIntent();
-   //     sAppName = intent.getStringExtra("AppName");
+        try {
+            super.onCreate(savedInstanceState);
+            setContentView(R.layout.activity_ap__menu);
+            Intent DS_Intent = new Intent(this,ActivityMain.class);
+            CustomAdapter adapter = new CustomAdapter(this, itemname, imgid);
+            list = (ListView) findViewById(android.R.id.list);
+            list.setAdapter(adapter);
+            list.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
-        TextView app = (TextView) findViewById(R.id.TxtVw_AppName);
-        app.setText("App Profiler");
-
-        new LoadApplications().execute();
-       }
-
-    private ArrayList<String> setMenuOptions(){
-
-        ArrayList<String> list = new ArrayList<String>();
-
-        //list.add("Battery Radar");
-        list.add("Data Sniffer");
-        //list.add("Usage Monitor");
-        list.add("Log Manager");
-        //list.add("Network Watch");
-        //list.add("Server Locator");
-        //list.add("Task Manager");
-        list.add("Version Updates");
-
-        return list ;
-    }
-
-    protected void onListItemClick(ListView l,View v, int position, long id) {
-        super.onListItemClick(l, v, position, id);
-
-        String value = (String)l.getItemAtPosition(position);
-         try{
-
-            if(value.equals("Data Sniffer"))
-            {
-                Intent DS_Intent = new Intent(this,ApplicationListDataSniff.class);
-              //  DS_Intent.putExtra("SelectedValue",sAppName);
-
-                if(DS_Intent != null) {
-                    startActivity(DS_Intent);
-                }
-            }
-            else
-
-            if(value.equals("Version Updates"))
-            {
-                Intent DS_Intent = new Intent(this,ApkListActivity.class);
-                //  DS_Intent.putExtra("SelectedValue",sAppName);
-
-                if(DS_Intent != null) {
-                    startActivity(DS_Intent);
-                }
-            }
-            else
-
-                if(value.equals("Log Manager"))
-                {
-                    Intent DS_Intent = new Intent(this,CallLogger.class);
-                    startActivity(DS_Intent);
+                @Override
+                public void onItemClick(AdapterView<?> parent, View view,
+                                        int position, long id) {
+                    // TODO Auto-generated method stub
+                    String Selecteditem = itemname[+position];
+                    if(Selecteditem.equals("Usage Monitor")){
+                        Intent appInfo = new Intent(AP_Menu.this, ActivityMain.class);
+                        startActivity(appInfo);
+                    }
+                    else if(Selecteditem.equals("Data Sniffer")){
+                        Intent appInfo = new Intent(AP_Menu.this, ApplicationListDataSniff.class);
+                        startActivity(appInfo);
+                    }
+                    else if(Selecteditem.equals("Log Manager")){
+                        Intent appInfo = new Intent(AP_Menu.this, CallLogger.class);
+                        startActivity(appInfo);
+                    }
+                    else if(Selecteditem.equals("Task Manager")){
+                        Intent appInfo = new Intent(AP_Menu.this, AndroidTaskManager.class);
+                        startActivity(appInfo);
+                    }
+                    else if(Selecteditem.equals("Version Updates")){
+                        Intent appInfo = new Intent(AP_Menu.this, ApkListActivity.class);
+                        startActivity(appInfo);
+                    }
+                    else if(Selecteditem.equals("Frames Calculation")){
+                        Intent appInfo = new Intent(AP_Menu.this, MaxFPSActivity.class);
+                        startActivity(appInfo);
+                    }
 
                 }
-                else
-
-                if(value.equals("Version Updates"))
-                {
-                    Intent DS_Intent = new Intent(this,ApkListActivity.class);
-                    startActivity(DS_Intent);
-
-                }
-        }catch(ActivityNotFoundException e){
-            Toast.makeText(AP_Menu.this, e.getMessage(), Toast.LENGTH_LONG).show();
-        }catch(Exception e){
-            Toast.makeText(AP_Menu.this, e.getMessage(), Toast.LENGTH_LONG).show();
+            });
+        } catch (Exception e) {
+            e.printStackTrace();
         }
-    }
-
-    private class LoadApplications extends AsyncTask<Void, Void,Void>{
-
-        private ProgressDialog progress = null;
-
-        @Override
-        protected Void doInBackground(Void...params){
-            MenuList = setMenuOptions();
-            menuListPopulator = new MenuLstPopulator(AP_Menu.this,R.layout.activity_menu_lst_populator,MenuList);
-
-            return null;
-        }
-
-        protected void onPostExecute(Void result){
-            setListAdapter(menuListPopulator);
-            progress.dismiss();
-            super.onPostExecute(result);
-        }
-
-        protected void onPreExecute(){
-            progress = ProgressDialog.show(AP_Menu.this,null,"Loading Menu-Options.....");
-            super.onPreExecute();
-        }
-
     }
 }
