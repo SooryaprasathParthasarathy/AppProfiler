@@ -128,6 +128,7 @@
 	<string name="p_cached">Cached</string>
 	<string name="p_threshold">Threshold</string>
 	<string name="p_kb">- kB</string>
+	<string name="start_test">Start Test</string>
 	<string name="p_percentage">-%</string>
 	<string name="about_title">About</string>
     <string name="cd_paramter_status_icon">Parameter status icon</string>
@@ -141,4 +142,15 @@
     <string name="title_activity_battery_consumption">BatteryConsumption</string>
     <string name="title_activity_ipextractsdata">IPExtractsdata</string>
     <string name="title_activity_ipextract_data">IPExtractData</string>
+
+	<string name="title_activity_save">SaveActivity</string>
+	<string name="title_activity_process_list">ProcessListActivity</string>
+	<string name="stop_test">Stop Test</string>
+	<string name="process_free_mem">App/Available Memory:</string>
+	<string name="process_overall_cpu">App/System CPU:</string>
+	<string name="traffic">Net Traffic(KB)</string>
+	<string name="stat_error">Stat Error</string>
+	<string name="current">Current</string>
+	<string name="title_activity_notification_receiver">NotificationReceiver</string>
+
 </resources>

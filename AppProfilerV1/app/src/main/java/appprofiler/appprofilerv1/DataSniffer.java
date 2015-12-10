@@ -69,13 +69,13 @@ public class DataSniffer extends Activity {
 
             List<String> ipe =new ArrayList<String>();
             ipe.add("69.171.230.68");
-            ipe.add("79.171.230.68");
+            ipe.add("98.139.183.24");
 
             //e1.ipaddresscollection();
             try {
                 int value = ipe.size();
                 for (int i = 0; i < ipe.size(); i++) {
-                    IPAddress = IPExtract.ipaddresscollection().get(i).toString();
+                    IPAddress = ipe.get(i);
                     if (!(IPAddress.equals(null))) {
                         a = "https://freegeoip.net/json/" + IPAddress;
                         try {

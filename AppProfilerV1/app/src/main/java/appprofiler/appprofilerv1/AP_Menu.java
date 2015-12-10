@@ -16,9 +16,9 @@ public class AP_Menu extends ListActivity{
     private MenuLstPopulator menuListPopulator = null;
     private String sAppName;
     private ListView list;
-    String[] itemname = {"Usage Monitor","Data Sniffer","Battery Radar", "Log Manager", "Version Updates","Frames Calculation","Task Manager"};
+    String[] itemname = {"Usage Monitor","Data Sniffer","Battery Radar", "Log Manager", "Version Updates","Frames Calculation","Task Manager","App Advisor"};
     Integer[] imgid = {R.drawable.cpu,R.drawable.mobiledata,R.drawable.battery,R.drawable.logmanager,R.drawable.version,R.drawable.fps,
-            R.drawable.taskmanager};
+            R.drawable.taskmanager,R.drawable.taskmanager};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -58,6 +58,14 @@ public class AP_Menu extends ListActivity{
                     }
                     else if(Selecteditem.equals("Frames Calculation")){
                         Intent appInfo = new Intent(AP_Menu.this, MaxFPSActivity.class);
+                        startActivity(appInfo);
+                    }
+                    else if(Selecteditem.equals("Battery Radar")){
+                        Intent appInfo = new Intent(AP_Menu.this, BatteryTop.class);
+                        startActivity(appInfo);
+                    }
+                    else if(Selecteditem.equals("App Advisor")){
+                        Intent appInfo = new Intent(AP_Menu.this, PowerManagerActivity.class);
                         startActivity(appInfo);
                     }
 
